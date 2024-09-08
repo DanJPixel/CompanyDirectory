@@ -38,6 +38,14 @@ app.MapPost("/locations", async (CompanyDb db, Location location) =>
   return Results.Created($"/locations/{location.Id}", location);
 });
 // put location
+app.MapPut("/locations/{id}", async (CompanyDb db, Location updatelocation, int id) => 
+{
+  var location = await db.Locations.FindAsync(id);
+  if (location == null) return Results.NotFound();
+  location.Name = updatelocation.Name;
+  await db.SaveChangesAsync();
+  return Results.NoContent();
+});
 // delete location
 
 // Department Endpoints //
