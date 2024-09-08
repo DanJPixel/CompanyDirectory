@@ -25,14 +25,18 @@ if (app.Environment.IsDevelopment())
    });
 }
 
-app.MapGet("/", () => "Hello World!");
-
 // Location Endpoints //
 // get all
 app.MapGet("/locations", async (CompanyDb db) => await db.Locations.ToListAsync());
 // get by id
 // get employee count by location id
 // post location
+app.MapPost("/locations", async (CompanyDb db, Location location) =>
+{
+  await db.Locations.AddAsync(location);
+  await db.SaveChangesAsync();
+  return Results.Created($"/locations/{location.Id}", location);
+});
 // put location
 // delete location
 
