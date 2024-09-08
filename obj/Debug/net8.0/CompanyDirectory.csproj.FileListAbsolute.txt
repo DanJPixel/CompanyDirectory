@@ -126,3 +126,4 @@ C:\Users\Alpha\Desktop\CsharpProjects\CompanyDirectory\obj\Debug\net8.0\refint\C
 C:\Users\Alpha\Desktop\CsharpProjects\CompanyDirectory\obj\Debug\net8.0\CompanyDirectory.pdb
 C:\Users\Alpha\Desktop\CsharpProjects\CompanyDirectory\obj\Debug\net8.0\CompanyDirectory.genruntimeconfig.cache
 C:\Users\Alpha\Desktop\CsharpProjects\CompanyDirectory\obj\Debug\net8.0\ref\CompanyDirectory.dll
+C:\Users\Alpha\Desktop\CsharpProjects\CompanyDirectory\obj\Debug\net8.0\CompanyDirectory.sourcelink.json
