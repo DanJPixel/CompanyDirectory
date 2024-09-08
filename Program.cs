@@ -29,6 +29,12 @@ if (app.Environment.IsDevelopment())
 // get all
 app.MapGet("/locations", async (CompanyDb db) => await db.Locations.ToListAsync());
 // get by id
+app.MapGet("/locations/{id}", async (CompanyDb db, int id) => 
+{
+  var location = await db.Locations.FindAsync(id);
+  if (location == null) return Results.NotFound();
+  return Results.Ok(location);
+});
 // get employee count by location id
 // post location
 app.MapPost("/locations", async (CompanyDb db, Location location) =>
