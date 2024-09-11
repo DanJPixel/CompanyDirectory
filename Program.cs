@@ -66,10 +66,51 @@ app.MapDelete("/locations/{id}", async (CompanyDb db, int id) =>
 // get all
 app.MapGet("/departments", async (CompanyDb db) => await db.Departments.ToListAsync());
 // get by id
+app.MapGet("/departments/{id}", async (CompanyDb db, int id) => 
+{
+  var department = await db.Departments
+                            .Where(d => d.Id == id)
+                            .Join(db.Locations,
+                              d => d.LocationId,
+                              l => l.Id,
+                              (d, l) => new {
+                                d.Id,
+                                d.Name,
+                                LocationName = l.Name
+                              })
+                            .FirstOrDefaultAsync();
+
+  if (department == null) return Results.NotFound();
+  
+  return Results.Ok(department);
+});
 // get employee count by department id
 // post department
+app.MapPost("/departments", async (CompanyDb db, Department department) =>
+{
+  await db.Departments.AddAsync(department);
+  await db.SaveChangesAsync();
+  return Results.Created($"/departments/{department.Id}", department);
+});
 // put department
+app.MapPut("/departments/{id}", async (CompanyDb db, Department updatedepartment, int id) => 
+{
+  var department = await db.Departments.FindAsync(id);
+  if (department == null) return Results.NotFound();
+  department.Name = updatedepartment.Name;
+  department.LocationId = updatedepartment.LocationId;
+  await db.SaveChangesAsync();
+  return Results.NoContent();
+});
 // delete department
+app.MapDelete("/departments/{id}", async (CompanyDb db, int id) => 
+{
+  var department = await db.Departments.FindAsync(id);
+  if (department == null) return Results.NotFound();
+  db.Departments.Remove(department);
+  await db.SaveChangesAsync();
+  return Results.Ok();
+});
 
 // Employee Endpoints //
 // get all
