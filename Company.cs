@@ -6,7 +6,7 @@ namespace CompanyDirectory.Models
   {
     public int Id { get; set;}
     public string? Name { get; set;}
-    public string? Location { get; set;}
+    public int? LocationId { get; set;}
   }
 
   public class Location
@@ -22,7 +22,7 @@ namespace CompanyDirectory.Models
     public string? LastName { get; set;}
     public string? JobTitle { get; set;}
     public string? Email { get; set;}
-    public string? DepartmentId { get; set;}
+    public int? DepartmentId { get; set;}
   }
 
   class CompanyDb : DbContext
