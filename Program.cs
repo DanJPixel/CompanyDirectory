@@ -98,6 +98,7 @@ app.MapPut("/departments/{id}", async (CompanyDb db, Department updatedepartment
   var department = await db.Departments.FindAsync(id);
   if (department == null) return Results.NotFound();
   department.Name = updatedepartment.Name;
+  department.LocationId = updatedepartment.LocationId;
   await db.SaveChangesAsync();
   return Results.NoContent();
 });
