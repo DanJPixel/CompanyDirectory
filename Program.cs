@@ -116,10 +116,42 @@ app.MapDelete("/departments/{id}", async (CompanyDb db, int id) =>
 // get all
 app.MapGet("/employees", async (CompanyDb db) => await db.Employees.ToListAsync());
 // get by id
+app.MapGet("/employees/{id}", async (CompanyDb db, int id) => 
+{
+  var employee = await db.Employees.FindAsync(id);
+  if (employee == null) return Results.NotFound();
+  return Results.Ok(employee);
+});
 // get all by location id
 // get all by department id
 // post employee
+app.MapPost("/employees", async (CompanyDb db, Employee employee) => 
+{
+  await db.Employees.AddAsync(employee);
+  await db.SaveChangesAsync();
+  return Results.Created($"/employees/{employee.Id}", employee);
+});
 // put employee
+app.MapPut("/employees/{id}", async (CompanyDb db, Employee updateemployee, int id) =>
+{
+  var employee = await db.Employees.FindAsync(id);
+  if (employee == null) return Results.NotFound();
+  employee.FirstName = updateemployee.FirstName;
+  employee.LastName = updateemployee.LastName;
+  employee.JobTitle = updateemployee.JobTitle;
+  employee.Email = updateemployee.Email;
+  employee.DepartmentId = updateemployee.Id;
+  await db.SaveChangesAsync();
+  return Results.NoContent();
+});
 // delete employee
+app.MapDelete("/employees/{id}", async (CompanyDb db, int id) => 
+{
+  var employee = await db.Employees.FindAsync(id);
+  if (employee == null) return Results.NotFound();
+  db.Employees.Remove(employee);
+  await db.SaveChangesAsync();
+  return Results.Ok();
+});
 
 app.Run();
